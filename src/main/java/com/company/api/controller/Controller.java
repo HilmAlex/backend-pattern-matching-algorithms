@@ -32,7 +32,7 @@ public class Controller {
     @GetMapping("/kmp")
     public ResponseEntity<ExecutionAlgorithmData> getDataByOneForEachLineByKMP(@RequestParam String text,
             @RequestParam String pattern) {
-        ExecutionAlgorithmData data = service.getDataByOneForEachLineByBruteForce(text, pattern);
+        ExecutionAlgorithmData data = service.getDataByOneForEachLineByKMP(text, pattern);
         return new ResponseEntity<>(data, HttpStatus.OK);
     }
 
