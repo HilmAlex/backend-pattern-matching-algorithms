@@ -12,13 +12,13 @@ public class Main {
 	public static void main(String[] args) {
 		SpringApplication.run(Main.class, args);
 	}
-
+ 
 	@Bean
 	public WebMvcConfigurer corsConfigurer() {
 		return new WebMvcConfigurer() {
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
-				registry.addMapping("/api/*").allowedOrigins("*");
+				registry.addMapping("/api/*").allowedOrigins("0.0.0.0");
 			}
 		};
 	}
