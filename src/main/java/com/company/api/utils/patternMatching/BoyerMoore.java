@@ -6,34 +6,71 @@ import java.util.List;
 import java.util.Map;
 
 public class BoyerMoore {
-    /**
-     * El metodo findOne() busca un patron en un texto y devuelve la primera coincidencia
-     * @param text  Es el texto en el cual se requiere buscar un patron
-     * @param pattern El patron a buscar en el texto
-     * @return Numero entero correspondiente a la primera coincidencia del patron en el texto
-     */
-    public static int findOne(String text, String pattern) {
-        int textLength = text.length();
-        int patternLength = pattern.length();
+    public static int findOne(String t, String p) {
+        char[] text = t.toCharArray();
+        char[] pattern = p.toCharArray();
+        return indexOf(text, pattern);
+    }
 
-        for (int i = 0; i <= textLength - patternLength; i++) { // Iterar sobre todo el texto
-            int j = 0; // Iterar el patron
-            while (j < patternLength && text.charAt(i + j) == pattern.charAt(j)) {
-                j++;
+    private static int indexOf(char[] text, char[] pattern) {
+        if (pattern.length == 0) {
+            return 0;
+        }
+        int charTable[] = makeCharTable(pattern);
+        int offsetTable[] = makeOffsetTable(pattern);
+        for (int i = pattern.length - 1, j; i < text.length;) {
+            for (j = pattern.length - 1; pattern[j] == text[i]; --i, --j) {
+                if (j == 0) {
+                    return i;
+                }
             }
-            if (j == patternLength) {
-                return i;
-            }
+            i += Math.max(offsetTable[pattern.length - 1 - j], charTable[text[i]]);
         }
         return -1;
     }
 
-    /**
-     * El metodo findAll devuelve un arreglo de enteros con todas las posiciones
-     * @param text  Es el texto en el cual se requiere buscar un patron
-     * @param pattern El patron a buscar en el texto
-     * @return Arreglo de enteros con todas las posiciones de las ocurrencias encontradas del patron en el texto
-     */
+    private static int[] makeCharTable(char[] pattern) {
+        final int ALPHABET_SIZE = 256;
+        int[] table = new int[ALPHABET_SIZE];
+        for (int i = 0; i < table.length; ++i)
+            table[i] = pattern.length;
+        for (int i = 0; i < pattern.length - 1; ++i)
+            table[pattern[i]] = pattern.length - 1 - i;
+        return table;
+    }
+
+    private static int[] makeOffsetTable(char[] pattern) {
+        int[] table = new int[pattern.length];
+        int lastPrefixPosition = pattern.length;
+        for (int i = pattern.length - 1; i >= 0; --i) {
+            if (isPrefix(pattern, i + 1))
+                lastPrefixPosition = i + 1;
+            table[pattern.length - 1 - i] = lastPrefixPosition - i + pattern.length - 1;
+        }
+        for (int i = 0; i < pattern.length - 1; ++i) {
+            int slen = suffixLength(pattern, i);
+            table[slen] = pattern.length - 1 - i + slen;
+        }
+        return table;
+    }
+
+    private static boolean isPrefix(char[] pattern, int p) {
+        for (int i = p, j = 0; i < pattern.length; ++i, ++j) {
+            if (pattern[i] != pattern[j]) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private static int suffixLength(char[] pattern, int p) {
+        int len = 0;
+        for (int i = p, j = pattern.length - 1; i >= 0 && pattern[i] == pattern[j]; --i, --j) {
+            len += 1;
+        }
+        return len;
+    }
+
     public static Integer[] findAll(String text, String pattern) {
         int textLength;
         int patternLength;
@@ -43,8 +80,8 @@ public class BoyerMoore {
         patternLength = pattern.length();
         occurrences = new ArrayList<>();
 
-        for (int i = 0; i <= textLength - patternLength; i++) { // Iterar sobre todo el texto
-            int j = 0; // Iterar el patron
+        for (int i = 0; i <= textLength - patternLength; i++) {
+            int j = 0;
             while (j < patternLength && text.charAt(i + j) == pattern.charAt(j)) {
                 j++;
             }
@@ -52,36 +89,19 @@ public class BoyerMoore {
                 occurrences.add(i);
             }
         }
-
-        // Se crea un nuevo arreglo de entero con el tamaño de la lista de ocurrencias
         Integer[] response = new Integer[occurrences.size()];
-        // Se un arreglo que se obtiene transformando la lista de ocurrencias en arreglo
         return occurrences.toArray(response);
     }
 
-    /** 
-     * El metodo findAllForEachLines() busca un patron en un texto dividido segun sus lineas
-     * @param lines  Es el arreglo con las lineas en las cuales se requiere buscar un patron
-     * @param pattern El patron a buscar en el texto
-     * @return Hashmap en donde la clave es la linea y el valor es su correspondiente arreglo de coincidencias
-     */
     public static Map<Integer, Integer[]> findAllForEachLines(String[] lines, String pattern) {
-        // En el hashmap se almacenara la linea y un arreglo de occurencias en caso de existirlas
         Map<Integer, Integer[]> map;
-        // En una arreglo de Strings se separa cada linea del texto ingresado para realizar una
-        // busqueda especifica de cada linea
 
         map = new HashMap<Integer, Integer[]>();
 
-        // Por cada linea del texto se realiza una busqueda del patron y en caso de existir una
-        // coincidencia se almacena la linea y la posicion de las coincidencias en un hashmap
         for (int i = 0; i < lines.length; i++) {
             Integer[] currentOcurrences = findAll(lines[i], pattern);
 
-            // Si el arreglo de ocurrencias actual tiene una longitud diferente de 0, es decir, no esta vacio
-            // se almacena la linea actual con dicho arreglo de occurencias
             if (currentOcurrences.length != 0) {
-                // Se guarda en el hashmap la clave de la linea con el valor de su arreglo de occurencias
                 map.put(i + 1, currentOcurrences);
             }
         }
