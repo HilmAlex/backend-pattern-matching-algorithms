@@ -24,8 +24,8 @@ public class KMP {
         int patternLength = pattern.length();
         int respuesta = -1;
         int[] fail = computeFailKMP(pattern); // búsqueda trivial de una cadena vacía
-        int j = 0; //tamanio del texto original
-        int k = 0; //tamanio del patron
+        int j = 0; // tamanio del texto original
+        int k = 0; // tamanio del patron
         n = text.length();
         m = pattern.length();
         while (j < n) {
@@ -37,25 +37,25 @@ public class KMP {
                 j++; // caso contrario intenta extender la coincidencia
                 k++;
             } else if (k > 0)
-                k = fail[k - 1]; //reutilizar el sufijo de P[0..k-1]
+                k = fail[k - 1]; // reutilizar el sufijo de P[0..k-1]
             else
                 j++;
         }
-        return respuesta; //llegó al final coincidencia
+        return respuesta; // llegó al final coincidencia
     }
 
     private static int[] computeFailKMP(String pattern) {
         char[] cpattern = pattern.toCharArray();
         int m = cpattern.length;
-        int[] fail = new int[m]; //mismo tamanio que el patron
+        int[] fail = new int[m]; // mismo tamanio que el patron
         int j = 1;
         int k = 0;
-        while (j < m) { ////calcular falla [j] durante este paso, si es distinto de cero
+        while (j < m) { //// calcular falla [j] durante este paso, si es distinto de cero
             if (cpattern[j] == cpattern[k]) {
                 fail[j] = k + 1;
                 j++;
                 k++;
-            } else if (k > 0) //k sigue un prefijo coincidente
+            } else if (k > 0) // k sigue un prefijo coincidente
                 k = fail[k - 1];
             else
                 j++; // no se encontró ninguna coincidencia a partir de j
@@ -102,8 +102,6 @@ public class KMP {
             else
                 occurrences.add(j);
         }
-
-      
 
         // Se crea un nuevo arreglo de entero con el tamaño de la lista de ocurrencias
         Integer[] response = new Integer[occurrences.size()];

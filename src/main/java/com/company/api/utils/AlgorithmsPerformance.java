@@ -21,7 +21,7 @@ public class AlgorithmsPerformance {
         Long endMS;
         Long endNS;
 
-        //Separacion del texto en un arreglo con todas sus lineas
+        // Separacion del texto en un arreglo con todas sus lineas
         lines = text.split("\n");
 
         // Inicio de la toma del tiempo

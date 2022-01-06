@@ -22,7 +22,7 @@ public class Controller {
 
     @Autowired
     private AlgorithmsService service;
-    
+
     @GetMapping("/brute-force")
     public ResponseEntity<ExecutionAlgorithmData> getDataByOneForEachLineByBruteForce(@RequestParam String text,
             @RequestParam String pattern) {
