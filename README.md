@@ -15,6 +15,8 @@ Para probar la api seguir las siguientes instrucciones:
  - Maven
 
 ## Para correr el servidor:
+Por defecto el servidor corre en el puerto 8080, si desea cambiarlo lo puede hacer en el archivo src/main/resources/application-dev.properties
+
  - mvn clean install
  - ./mvnw spring-boot:run
 
