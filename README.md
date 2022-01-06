@@ -20,3 +20,7 @@ Por defecto el servidor corre en el puerto 8080, si desea cambiarlo lo puede hac
  - mvn clean install
  - ./mvnw spring-boot:run
 
+## En caso de no querer instalar el servidor, puede realizar peticiones a la api desplegada en heroku: https://backend-pattern-matching.herokuapp.com/
+### Ejemplo:
+    https://backend-pattern-matching.herokuapp.com/api/boyer-moore?text=hello&pattern=world
+    La respuesta será un JSON con la información de las ocurrencias encontradas y el tiempo de ejecución
