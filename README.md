@@ -1,4 +1,4 @@
-# backend-pattern-matching-algorithms
+# BACKEND PATTERN MATCHING ALGORITHMS
 
 API to test Pattern Matching Algorithms Performance - DataStructures and Algorithms Project
 
