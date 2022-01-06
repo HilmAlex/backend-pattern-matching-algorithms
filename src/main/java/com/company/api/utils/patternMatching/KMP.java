@@ -23,42 +23,42 @@ public class KMP {
         int textLength = text.length();
         int patternLength = pattern.length();
         int respuesta = -1;
-        int[] fail = computeFailKMP(pattern);
-        int j = 0;
-        int k = 0;
+        int[] fail = computeFailKMP(pattern); // búsqueda trivial de una cadena vacía
+        int j = 0; //tamanio del texto original
+        int k = 0; //tamanio del patron
         n = text.length();
         m = pattern.length();
         while (j < n) {
-            if (ctext[j] == cpattern[k]) {
+            if (ctext[j] == cpattern[k]) { // patrón [0..k] coincidió hasta ahora
                 if (k == m - 1) {
                     respuesta = (j - m + 1);
                     k = 0;
                 }
-                j++;
+                j++; // caso contrario intenta extender la coincidencia
                 k++;
             } else if (k > 0)
-                k = fail[k - 1];
+                k = fail[k - 1]; //reutilizar el sufijo de P[0..k-1]
             else
                 j++;
         }
-        return respuesta;
+        return respuesta; //llegó al final coincidencia
     }
 
     private static int[] computeFailKMP(String pattern) {
         char[] cpattern = pattern.toCharArray();
         int m = cpattern.length;
-        int[] fail = new int[m];
+        int[] fail = new int[m]; //mismo tamanio que el patron
         int j = 1;
         int k = 0;
-        while (j < m) {
+        while (j < m) { ////calcular falla [j] durante este paso, si es distinto de cero
             if (cpattern[j] == cpattern[k]) {
                 fail[j] = k + 1;
                 j++;
                 k++;
-            } else if (k > 0)
+            } else if (k > 0) //k sigue un prefijo coincidente
                 k = fail[k - 1];
             else
-                j++;
+                j++; // no se encontró ninguna coincidencia a partir de j
         }
         return fail;
     }
@@ -103,18 +103,7 @@ public class KMP {
                 occurrences.add(j);
         }
 
-        /*
-         * for (int i = 0; i <= textLength - patternLength; i++) { // Iterar sobre todo
-         * el texto
-         * int j = 0; // Iterar el patron
-         * while (j < patternLength && text.charAt(i + j) == pattern.charAt(j)) {
-         * j++;
-         * }
-         * if (j == patternLength) {
-         * occurrences.add(i);
-         * }
-         * }
-         */
+      
 
         // Se crea un nuevo arreglo de entero con el tamaño de la lista de ocurrencias
         Integer[] response = new Integer[occurrences.size()];
