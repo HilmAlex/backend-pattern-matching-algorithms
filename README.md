@@ -24,3 +24,5 @@ Por defecto el servidor corre en el puerto 8080, si desea cambiarlo lo puede hac
 ### Ejemplo:
     https://backend-pattern-matching.herokuapp.com/api/boyer-moore?text=hello&pattern=world
     La respuesta será un JSON con la información de las ocurrencias encontradas y el tiempo de ejecución
+    ![image](https://user-images.githubusercontent.com/71728367/148459458-f4de92ef-2647-4588-9783-8845f9894a98.png)
+
